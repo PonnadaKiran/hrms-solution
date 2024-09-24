@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Solution - Employee Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        :root {
+            --first-frost: #CBDCED;
+            --morning-fog: #8FA9B5;
+            --alpine: #6587A1;
+            --evergreen: #38524C;
+            --lake-summit: #3F778C;
+            --black-ice: #172636;
+            --text-color: #F5F5F5;
+        }
+        header {
+            background-color: var(--black-ice);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: var(--black-ice);
+            text-align: center;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6em;
+            margin: 15px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .form-group textarea {
+            resize: none;
+        }
+        .form-group input[type="submit"] {
+            background-color: var(--lake-summit);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: var(--alpine);
+        }
+        footer {
+            background-color: var(--morning-fog);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <!-- Include AWS SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <h1>HRMS Solution</h1>
+    </header>
+
+    <!-- Feedback Form Section -->
+    <div class="content">
+        <h2>Employee Feedback Form</h2>
+        <form id="feedbackForm">
+            <div class="form-group">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" name="employeeName" required>
+            </div>
+            <div class="form-group">
+                <label for="department">Department:</label>
+                <input type="text" id="department" name="department" required>
+            </div>
+            <div class="form-group">
+                <label for="feedbackType">Feedback Type:</label>
+                <select id="feedbackType" name="feedbackType" required>
+                    <option value="suggestion">Suggestion</option>
+                    <option value="complaint">Complaint</option>
+                    <option value="appreciation">Appreciation</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="feedbackMessage">Feedback Message:</label>
+                <textarea id="feedbackMessage" name="feedbackMessage" rows="5" placeholder="Write your feedback here..." required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit Feedback">
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 F13 Technologies. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Configure AWS region and credentials
+        AWS.config.update({
+            region: 'us-east-1',
+            credentials: new AWS.CognitoIdentityCredentials({
+                IdentityPoolId: 'us-east-1:YOUR_IDENTITY_POOL_ID' // Replace with your Identity Pool ID
+            })
+        });
+
+        // Create an S3 instance
+        var s3 = new AWS.S3({
+            apiVersion: '2006-03-01',
+            params: { Bucket: 'kiran-bucket1' } // Replace with your S3 bucket name
+        });
+
+        // Handle form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Collect form data
+            var employeeName = document.getElementById('employeeName').value;
+            var department = document.getElementById('department').value;
+            var feedbackType = document.getElementById('feedbackType').value;
+            var feedbackMessage = document.getElementById('feedbackMessage').value;
+
+            // Prepare data for S3 upload
+            var feedbackData = {
+                employeeName: employeeName,
+                department: department,
+                feedbackType: feedbackType,
+                feedbackMessage: feedbackMessage,
+                date: new Date().toISOString()
+            };
+
+            var feedbackKey = 'feedback/' + employeeName + '-' + new Date().getTime() + '.json';
+
+            // Upload data to S3
+            var params = {
+                Key: feedbackKey,
+                Body: JSON.stringify(feedbackData),
+                ContentType: 'application/json'
+            };
+
+            s3.putObject(params, function(err, data) {
+                if (err) {
+                    console.log("Error uploading feedback:", err);
+                    alert('There was an error submitting your feedback.');
+                } else {
+                    console.log("Successfully uploaded feedback:", data);
+                    alert('Thank you for your feedback!');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

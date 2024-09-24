@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Solution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        :root {
+            --first-frost: #CBDCED;
+            --morning-fog: #8FA9B5;
+            --alpine: #6587A1;
+            --evergreen: #38524C;
+            --lake-summit: #3F778C;
+            --black-ice: #172636;
+            --text-color: #F5F5F5;
+        }
+
+        header {
+            background-color: var(--black-ice);
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            max-height: 50px;
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown button {
+            background-color: var(--black-ice);
+            color: white;
+            padding: 16px;
+            font-size: 22px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Card Layout */
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .box-left {
+            flex: 1;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .box-right {
+            flex: 0 0 300px;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .box-right img {
+            max-width: 300%;
+            max-height: 300px;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .box-right img:hover {
+            transform: scale(1.1);
+        }
+
+        .box-left h2 {
+            font-size: 2rem;
+            color: var(--alpine);
+            font-weight: bold;
+        }
+
+        .box-left p {
+            font-size: 1rem;
+            color: var(--black-ice);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('images/emp.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 120vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(50, 61, 66, 0.8);
+            z-index: 1;
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .hero-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--text-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        input[type="file"] {
+            display: block;
+            margin: 10px auto;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: var(--lake-summit);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        button:hover {
+            background-color: var(--alpine);
+        }
+
+        p#status {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <img src="images/HRMS_F13_Logo-removebg-preview.png" alt="HRMS Logo" class="logo-img">
+            <h1>HRMS Solution</h1>
+        </div>
+        <div class="dropdown">
+            <button>Departments</button>
+            <div class="dropdown-content">
+                <a href="upload_documents.html">Upload Documents</a>
+                <a href="request_leave.html">Leave Requests</a>
+                <a href="feedback.html">Feedback</a>
+                <a href="payrollemp.html">Payroll</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Welcome to Your Employee Department</h2>
+                <p>Manage your personal details, view upcoming tasks, and stay updated with company news</p>
+            </div>
+        </section>
+        
+        <div class="container">
+            <!-- Documents Upload Section -->
+            <div class="info-box">
+                <div class="box-left">
+                    <h2>Documents Upload</h2>
+                    <p>Upload your documents directly to our HRMS system.</p>
+                    <input type="file" id="fileInput">
+                    <button id="uploadBtn">Upload Document</button>
+                    <p id="status"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="about-us">
+            <a href="aboutUs.html" class="about-us">About Us</a>
+            <p>&copy; 2024 F13 Technologies. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1201.0.min.js"></script>
+    <script>
+        AWS.config.region = 'us-east-1'; // Your AWS region
+        AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+            IdentityPoolId: 'us-east-1_BEaCaj3pv', // Your Cognito Identity Pool ID
+        });
+
+        const s3 = new AWS.S3({
+            apiVersion: '2006-03-01',
+            params: { Bucket: 'kiran-bucket1' } // Your S3 bucket name
+        });
+
+        document.getElementById('uploadBtn').addEventListener('click', async () => {
+            const file = document.getElementById('fileInput').files[0];
+            if (!file) {
+                alert("Please select a file to upload");
+                return;
+            }
+
+            const fileName = file.name;
+            const params = {
+                Key: fileName,
+                Body: file,
+                ACL: 'public-read'
+            };
+
+            try {
+                const uploadResult = await s3.upload(params).promise();
+                document.getElementById('status').innerText = `File uploaded successfully! URL: ${uploadResult.Location}`;
+            } catch (err) {
+                console.error('Error uploading file:', err);
+                document.getElementById('status').innerText = 'Error uploading file';
+            }
+        });
+    </script>
+</body>
+</html>

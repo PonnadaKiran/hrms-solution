@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Solution - Upload Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        :root {
+            --first-frost: #CBDCED;
+            --morning-fog: #8FA9B5;
+            --alpine: #6587A1;
+            --evergreen: #38524C;
+            --lake-summit: #3F778C;
+            --black-ice: #172636;
+            --text-color: #F5F5F5;
+        }
+        header {
+            background-color: var(--black-ice);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: var(--black-ice);
+            text-align: center;
+        }
+        footer {
+            background-color: var(--morning-fog);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--black-ice);
+        }
+        .form-group input[type="text"],
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-group input[type="submit"] {
+            background-color: var(--lake-summit);
+            color: #fff;
+            border: none;
+            padding: 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: var(--alpine);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="logo">
+            <img src="images/HRMS_F13_Logo-removebg-preview.png" alt="HRMS Logo" class="logo-img">
+            <h1>HRMS Solution</h1>
+        </div>     
+    </header>
+
+    <div class="content">
+        <h2>Upload Document</h2>
+        <form id="documentUploadForm">
+            <div class="form-group">
+                <label for="documentTitle">Document Title:</label>
+                <input type="text" id="documentTitle" name="documentTitle" required>
+            </div>
+            <div class="form-group">
+                <label for="documentFile">Choose Document:</label>
+                <input type="file" id="documentFile" name="documentFile" accept=".pdf,.doc,.docx,.jpg,.png" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Upload">
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 F13 Technologies. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('documentUploadForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const documentTitle = document.getElementById('documentTitle').value;
+            const documentFile = document.getElementById('documentFile').files[0];
+
+            // Step 1: Get a pre-signed URL from the AWS API Gateway
+            const response = await fetch('YOUR_API_ENDPOINT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: documentTitle })
+            });
+
+            if (!response.ok) {
+                alert('Error getting upload URL: ' + response.statusText);
+                return;
+            }
+
+            const { uploadUrl } = await response.json();
+
+            // Step 2: Upload the file to S3 using the pre-signed URL
+            const uploadResponse = await fetch(uploadUrl, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': documentFile.type // Set the file's MIME type
+                },
+                body: documentFile
+            });
+
+            if (uploadResponse.ok) {
+                alert('Document uploaded successfully!');
+                document.getElementById('documentUploadForm').reset(); // Reset form
+            } else {
+                alert('Error uploading document: ' + uploadResponse.statusText);
+            }
+        });
+    </script>
+</body>
+</html>

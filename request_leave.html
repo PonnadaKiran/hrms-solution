@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Solution - Leave Request</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        :root {
+            --first-frost: #CBDCED;
+            --morning-fog: #8FA9B5;
+            --alpine: #6587A1;
+            --evergreen: #38524C;
+            --lake-summit: #3F778C;
+            --black-ice: #172636;
+            --text-color: #F5F5F5;
+        }
+        header {
+            background-color: var(--black-ice);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: var(--black-ice);
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .form-group textarea {
+            resize: none;
+        }
+        .form-group input[type="submit"] {
+            background-color: var(--lake-summit);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: var(--alpine);
+        }
+        footer {
+            background-color: var(--morning-fog);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="logo">
+            <img src="images/HRMS_F13_Logo-removebg-preview.png" alt="HRMS Logo" class="logo-img">
+            <h1>HRMS Solution</h1>
+        </div>
+    </header>
+
+    <div class="content">
+        <h2>Apply for Leave Request</h2>
+        <form id="leaveRequestForm" action="#" method="POST">
+            <div class="form-group">
+                <label for="employeeName">Employee Name:</label>
+                <input type="text" id="employeeName" name="employeeName" required>
+            </div>
+            <div class="form-group">
+                <label for="leaveType">Type of Leave:</label>
+                <input type="text" id="leaveType" name="leaveType" placeholder="Sick Leave, Casual Leave, etc." required>
+            </div>
+            <div class="form-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate" required>
+            </div>
+            <div class="form-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate" required>
+            </div>
+            <div class="form-group">
+                <label for="reason">Reason for Leave:</label>
+                <textarea id="reason" name="reason" rows="4" placeholder="Explain your reason" required></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit Request">
+            </div>
+        </form>
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 F13 Technologies. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Handle form submission
+        document.getElementById('leaveRequestForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Gather form data
+            const employeeName = document.getElementById('employeeName').value;
+            const leaveType = document.getElementById('leaveType').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const reason = document.getElementById('reason').value;
+
+            // Create a payload to send to your AWS API
+            const payload = {
+                employeeName: employeeName,
+                leaveType: leaveType,
+                startDate: startDate,
+                endDate: endDate,
+                reason: reason
+            };
+
+            // Sending data to AWS API Gateway endpoint
+            fetch('YOUR_API_ENDPOINT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Leave request submitted successfully!');
+                    document.getElementById('leaveRequestForm').reset(); // Reset form
+                } else {
+                    throw new Error('Error submitting request: ' + response.statusText);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your request. Please try again.');
+            });
+        });
+    </script>
+
+</body>
+</html>

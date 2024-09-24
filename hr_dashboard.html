@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Solution</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        :root {
+            --first-frost: #CBDCED;
+            --morning-fog: #8FA9B5;
+            --alpine: #6587A1;
+            --evergreen: #38524C;
+            --lake-summit: #3F778C;
+            --black-ice: #172636;
+            --text-color: #F5F5F5;
+        }
+
+        header {
+            background-color: var(--black-ice);
+            padding: 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            max-height: 50px;
+            margin-right: 10px;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown button {
+            background-color: var(--black-ice);
+            color: white;
+            padding: 16px;
+            font-size: 22px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Card Layout */
+        .info-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px;
+            background-color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .box-left {
+            flex: 1;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .box-right {
+            flex: 0 0 300px;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .box-right img {
+            max-width: 300%; /* Image will not exceed the width of its container */
+            max-height: 300px; /* Set a max height for the image */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .box-right img:hover {
+            transform: scale(1.1);
+        }
+
+        .box-left h2 {
+            font-size: 2rem; /* Keep heading size */
+            color: var(--alpine);
+            font-weight: bold; /* Optional: Keep bold if desired */
+        }
+
+        .box-left p {
+            font-size: 1rem; /* Keep paragraph text size */
+            color: var(--black-ice);
+        }
+
+        /* Hero Section */
+        .hero {
+            background-image: url('images/humanresource.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 120vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Ensures content does not overflow */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(50, 61, 66, 0.8);
+            z-index: 1;
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2; /* Ensure it's above the ::before pseudo-element */
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            border-radius: 8px;
+        }
+
+        .hero-content h2 {
+            font-size: 3.5rem; /* Keep heading size */
+            margin-bottom: 20px;
+            color: var(--text-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.5rem; /* Keep paragraph text size */
+            margin-bottom: 30px;
+            color: var(--text-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            position: relative; /* Ensure it stays within its container */
+            z-index: 2; /* Ensure it's above the ::before pseudo-element */
+        }
+        
+        /* Feedback Form */
+        .feedback-form {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .form-group textarea {
+            resize: none;
+        }
+
+        .form-group input[type="submit"] {
+            background-color: var(--lake-summit);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .form-group input[type="submit"]:hover {
+            background-color: var(--alpine);
+        }
+
+    </style>
+    <!-- Include AWS SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <img src="images/HRMS_F13_Logo-removebg-preview.png" alt="HRMS Logo" class="logo-img">
+            <h1>HRMS Solution</h1>
+        </div>
+        <div class="dropdown">
+            <button>Departments</button>
+            <div class="dropdown-content">
+                <a href="documents.html">Manage Documents</a>
+                <a href="leave_requests.html">Manage Leave Requests</a>
+                <a href="manage_employees.html">Manage Employee</a>
+                <a href="payroll.html">Payroll</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Welcome to Your HR Department</h2>
+                <p>Manage all HR functions from one intuitive and powerful dashboard</p>
+            </div>
+        </section>
+        
+        <div class="container">
+            <!-- Documents Management -->
+            <div class="info-box" onclick="window.location.href='documents.html';">
+                <div class="box-left">
+                    <h2>Manage Documents</h2>
+                    <p>HRMS Solution simplifies document management, allowing HR to easily organize, access, </p>
+                    <p>employee documents. Enhance compliance and efficiency with a centralized document system.</p>
+                </div>
+                <div class="box-right">
+                    <img src="images/dochr.jpg" alt="Documents Management">
+                </div>
+            </div>
+
+            <!-- Leave Management -->
+            <div class="info-box" onclick="window.location.href='leave_requests.html';">
+                <div class="box-left">
+                    <h2>Manage Leave</h2>
+                    <p>HRMS Solution streamlines leave management for HR, enabling efficient approval and tracking of </p>
+                    <p>leave requests. Gain visibility into leave balances and automate administrative tasks with ease.</p>
+                </div>
+                <div class="box-right">
+                    <img src="images/leavehr.jpg" alt="Leave Management">
+                </div>
+            </div>
+
+            <!-- Feedback -->
+            <div class="info-box" onclick="window.location.href='manage_employees.html';">
+                <div class="box-left">
+                    <h2>Manage Employee</h2>
+                    <p>HRMS Solution facilitates comprehensive employee management, track performance and manage </p>
+                    <p>employee information. Simplify workforce administration with powerful tools.</p>
+                </div>
+                <div class="box-right">
+                    <img src="images/managehr.jpg" alt="Feedback">
+                </div>
+            </div>
+
+            <!-- Payroll Management -->
+            <div class="info-box" onclick="window.location.href='payroll.html';">
+                <div class="box-left">
+                    <h2>Payroll</h2>
+                    <p>HRMS Solution optimizes payroll management by automating salary calculations and disbursements</p>
+                    <p>Easily generate payroll reports and ensure timely, accurate payments with minimal effort.</p>
+                </div>
+                <div class="box-right">
+                    <img src="images/payrollemp.jpg" alt="Payroll Management">
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Form -->
+        <div class="feedback-form">
+            <h2>Submit Feedback</h2>
+            <form id="feedbackForm">
+                <div class="form-group">
+                    <label for="employeeName">Name:</label>
+                    <input type="text" id="employeeName" required>
+                </div>
+                <div class="form-group">
+                    <label for="employeeFeedback">Feedback:</label>
+                    <textarea id="employeeFeedback" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit Feedback">
+                </div>
+            </form>
+        </div>
+
+    </main>
+
+    <footer class="main-footer">
+        <div class="about-us">
+            <a href="aboutUs.html" class="about-us">About Us</a>
+            <p>&copy; 2024 F13 Technologies. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Configure AWS SDK
+        AWS.config.update({
+            accessKeyId: 'YOUR_ACCESS_KEY_ID',
+            secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
+            region: 'YOUR_REGION'
+        });
+
+        const s3 = new AWS.S3();
+
+        // Handle form submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('employeeName').value;
+            const feedback = document.getElementById('employeeFeedback').value;
+
+            const params = {
+                Bucket: 'YOUR_BUCKET_NAME',
+                Key: `feedback/${name}_${Date.now()}.txt`, // Name of the file
+                Body: `Name: ${name}\nFeedback: ${feedback}`, // Content
+                ContentType: "text/plain"
+            };
+
+            // Upload to S3
+            s3.upload(params, function(err, data) {
+                if (err) {
+                    console.error('Error uploading data: ', err);
+                    alert('There was an error submitting your feedback.');
+                } else {
+                    console.log('Successfully uploaded data to S3', data);
+                    alert('Feedback submitted successfully!');
+                    // Clear the form
+                    document.getElementById('feedbackForm').reset();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

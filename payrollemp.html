@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Solution - Employee Payroll</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        :root {
+            --first-frost: #CBDCED;
+            --morning-fog: #8FA9B5;
+            --alpine: #6587A1;
+            --evergreen: #38524C;
+            --lake-summit: #3F778C;
+            --black-ice: #172636;
+            --text-color: #F5F5F5;
+        }
+        header {
+            background-color: var(--black-ice);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: var(--black-ice);
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .form-group input[type="submit"] {
+            background-color: var(--lake-summit);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: var(--alpine);
+        }
+        .payroll-info {
+            margin: 20px 0;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        .payroll-info div {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        footer {
+            background-color: var(--morning-fog);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="logo">
+            <img src="images/HRMS_F13_Logo-removebg-preview.png" alt="HRMS Logo" class="logo-img">
+            <h1>HRMS Solution</h1>
+        </div>
+    </header>
+
+    <!-- Payroll Form Section -->
+    <div class="content">
+        <h2>Employee Payroll Details</h2>
+        <form id="payrollForm" action="#" method="POST">
+            <div class="payroll-info">
+                <div>
+                    <span>Employee ID:</span>
+                    <span id="employeeId">12345</span>
+                </div>
+                <div>
+                    <span>Employee Name:</span>
+                    <span id="employeeName">John Doe</span>
+                </div>
+                <div>
+                    <span>Credited Salary:</span>
+                    <span id="creditedSalary">$3,000</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="netSalary">Update Net Salary:</label>
+                <input type="number" id="netSalary" name="netSalary" placeholder="Enter net salary" step="0.01" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update Payroll">
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 F13 Technologies. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Handle form submission
+        document.getElementById('payrollForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const employeeId = document.getElementById('employeeId').innerText;
+            const employeeName = document.getElementById('employeeName').innerText;
+            const netSalary = document.getElementById('netSalary').value;
+
+            // Create a payload to send to your server or AWS S3
+            const payload = {
+                employeeId: employeeId,
+                employeeName: employeeName,
+                netSalary: parseFloat(netSalary),
+                timestamp: new Date().toISOString() // Add timestamp
+            };
+
+            // Here you would normally send the payload to your server
+            // This example uses a placeholder for an AJAX request
+            console.log('Sending payload:', payload);
+            // Example AJAX request (using Fetch API)
+            /*
+            fetch('YOUR_SERVER_ENDPOINT', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Payroll updated successfully!');
+                console.log(data);
+                // Optionally, reset the form or update UI here
+                document.getElementById('payrollForm').reset();
+            })
+            .catch(error => {
+                console.error('Error updating payroll:', error);
+                alert('There was an error updating the payroll information.');
+            });
+            */
+            alert('Payroll updated successfully! (This is a simulation)');
+            // Reset the form after submission
+            document.getElementById('payrollForm').reset();
+        });
+    </script>
+
+</body>
+</html>

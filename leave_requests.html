@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HRMS Solution - Manage Leave Requests</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        :root {
+            --first-frost: #CBDCED;
+            --morning-fog: #8FA9B5;
+            --alpine: #6587A1;
+            --evergreen: #38524C;
+            --lake-summit: #3F778C;
+            --black-ice: #172636;
+            --text-color: #F5F5F5;
+        }
+        header {
+            background-color: var(--black-ice);
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        header h1 {
+            margin: 0;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: var(--black-ice);
+            text-align: center;
+        }
+        p {
+            font-size: 1.1em;
+            line-height: 1.6em;
+            margin: 15px 0;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+        .form-group input[type="submit"] {
+            background-color: var(--lake-summit);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .form-group input[type="submit"]:hover {
+            background-color: var(--alpine);
+        }
+        .request-info, .action-buttons {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        .request-info div {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        footer {
+            background-color: var(--morning-fog);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <!-- Include AWS SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.283.1.min.js"></script>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="main-header">
+        <div class="logo">
+            <img src="images/HRMS_F13_Logo-removebg-preview.png" alt="HRMS Logo" class="logo-img">
+            <h1>HRMS Solution</h1>
+        </div>
+    </header>
+
+    <!-- Manage Leave Requests Section -->
+    <div class="content">
+        <h2>Manage Leave Requests</h2>
+
+        <!-- Leave Request Details -->
+        <div class="request-info">
+            <div>
+                <span>Employee Name:</span>
+                <span id="employeeName">John Doe</span>
+            </div>
+            <div>
+                <span>Type of Leave:</span>
+                <span id="leaveType">Sick Leave</span>
+            </div>
+            <div>
+                <span>Start Date:</span>
+                <span id="startDate">2024-09-20</span>
+            </div>
+            <div>
+                <span>End Date:</span>
+                <span id="endDate">2024-09-25</span>
+            </div>
+            <div>
+                <span>Reason for Leave:</span>
+                <p id="leaveReason">Feeling unwell and need to rest.</p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <h3>Action</h3>
+            <form id="leaveStatusForm">
+                <div class="form-group">
+                    <label for="leaveStatus">Leave Status:</label>
+                    <select id="leaveStatus" name="leaveStatus">
+                        <option value="approved">Approve</option>
+                        <option value="rejected">Reject</option>
+                        <option value="pending">Pending</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Update Status">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 F13 Technologies. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Configure AWS SDK
+        AWS.config.update({
+            accessKeyId: 'YOUR_ACCESS_KEY_ID', // Replace with your access key
+            secretAccessKey: 'YOUR_SECRET_ACCESS_KEY', // Replace with your secret access key
+            region: 'YOUR_REGION' // Replace with your region
+        });
+
+        const s3 = new AWS.S3();
+
+        // Handle form submission
+        document.getElementById('leaveStatusForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const employeeName = document.getElementById('employeeName').innerText;
+            const leaveType = document.getElementById('leaveType').innerText;
+            const startDate = document.getElementById('startDate').innerText;
+            const endDate = document.getElementById('endDate').innerText;
+            const leaveReason = document.getElementById('leaveReason').innerText;
+            const leaveStatus = document.getElementById('leaveStatus').value;
+
+            // Prepare the data to be saved
+            const feedbackData = {
+                employeeName: employeeName,
+                leaveType: leaveType,
+                startDate: startDate,
+                endDate: endDate,
+                leaveReason: leaveReason,
+                leaveStatus: leaveStatus,
+                timestamp: new Date().toISOString()
+            };
+
+            // Create parameters for the S3 upload
+            const params = {
+                Bucket: 'YOUR_BUCKET_NAME', // Replace with your bucket name
+                Key: `leave_requests/${employeeName.replace(/\s+/g, '_')}_${Date.now()}.json`, // Unique file name
+                Body: JSON.stringify(feedbackData), // Stringify the JSON object
+                ContentType: "application/json"
+            };
+
+            // Upload to S3
+            s3.upload(params, function(err, data) {
+                if (err) {
+                    console.error('Error uploading data: ', err);
+                    alert('There was an error updating the leave status.');
+                } else {
+                    console.log('Successfully uploaded data to S3', data);
+                    alert('Leave status updated successfully!');
+                    // Optionally, clear the form or redirect
+                    document.getElementById('leaveStatusForm').reset();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

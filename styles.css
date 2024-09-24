@@ -1,0 +1,292 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--first-frost);
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Root Variables for Color Theme */
+:root {
+    --first-frost: #CBDCED;
+    --morning-fog: #8FA9B5;
+    --alpine: #6587A1;
+    --evergreen: #38524C;
+    --lake-summit: #3F778C;
+    --black-ice: #172636;
+    --text-color: #F5F5F5;
+}
+
+/* Header Styling */
+header, .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: var(--black-ice);
+    margin: 0;
+    border: none;
+    position: relative;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    color: var(--first-frost);
+    font-size: 2rem; /* Slightly larger for better visibility */
+    font-weight: 600; /* Bold text for the logo */
+}
+/* Navigation and Login Button */
+.main-nav .login-btn {
+    padding: 10px 20px;
+    background-color: var(--first-frost);
+    color: var(--black-ice);
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+}
+
+.main-nav .login-btn:hover {
+    background-color: var(--morning-fog);
+}
+
+/* Remove any pseudo-elements from header */
+header::before, header::after,
+.main-header::before, .main-header::after {
+    content: none;
+    display: none;
+}
+
+/* Hero Section */
+.hero {
+    background-image: url('images/hr1.jpg'); /* Replace with HR-related image */
+    background-size: cover;
+    background-position: center;
+    height: 120vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin: 0;
+    border: none;
+    padding: 0;
+    image-rendering: -webkit-optimize-contrast; /* Ensures high-quality image rendering */
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(50, 61, 66, 0.8); /* Darker overlay */
+}
+
+.hero-content {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 40px; /* Increased padding */
+    border-radius: 8px; /* Optional rounded corners */
+}
+
+.hero-content h2 {
+    font-size: 3.5rem;
+    margin-bottom: 20px;
+    color: #F5F5F5;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Text shadow */
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #F5F5F5;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Text shadow */
+}
+
+.hero-content .cta-btn {
+    background-color: var(--lake-summit);
+    padding: 10px 25px;
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.hero-content .cta-btn:hover {
+    background-color: var(--evergreen);
+}
+.field h2 {
+    color: var(--black-ice); /* Change this to any color you prefer */
+    font-size: 2rem; /* Change the size as needed */
+    font-weight: 700; /* Bold the text */
+    margin-bottom: 10px; /* Adjust spacing */
+}
+
+.field p {
+    color:var(--evergreen); /* Change this to any color you prefer */
+    font-size: 1.2rem; /* Adjust the size */
+    font-weight: 400; /* Normal weight */
+    margin-top: 0; /* Remove top margin */
+}
+
+/* Section Styling */
+section {
+    padding: 40px 20px;
+    background-color: transparent;
+    text-align: center;
+    position: relative;
+    margin: 0; /* Remove margin between sections */
+    border: none; /* Remove borders */
+}
+
+/* Remove pseudo-elements and ensure no borders in sections */
+section::before, section::after {
+    content: '';
+    display: none;
+}
+.section-content {
+    display: flex;
+    gap: 30px; /* Adds space between images */
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0; /* Adds space above and below the images */
+}
+.section-content img {
+    width: 30%; /* Adjust the size as per requirement */
+    height: auto;
+    border-radius: 5%; /* Circular edges */
+    transition: transform 0.3s ease-in-out; /* Smooth zoom-in transition */
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+}
+
+/* Zoom-in effect on hover */
+.section-content img:hover {
+    transform: scale(1.1); /* Zooms the image slightly */
+}
+section {
+    padding-top: 35px; /* Adds padding to create space above the image section */
+}
+
+.section-content img {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .section-content img {
+        width: 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-content img {
+        width: 100%;
+    }
+}
+
+/* Login Page */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h2 {
+    margin-bottom: 20px;
+    font-size: 25px;
+    font-weight: 600;
+    color:#172636;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--black-ice);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #1a2735;
+}
+
+#login-error {
+    color: red;
+    display: none;
+    font-size: 14px;
+}
+
+/* Footer Styling */
+.main-footer {
+    background-color: var(--morning-fog);
+    padding: 30px 50px;
+    text-align: center;
+    border: none;
+    margin: 0; /* No margin below footer */
+}
+
+.about-us a {
+    font-size: 1.5rem;
+    color: var(--black-ice);
+    text-decoration: none;
+    padding-top: 20px;
+}
+
+.about-us p {
+    color: #fff;
+    font-size: 1rem;
+    padding-bottom: 20px;
+}
